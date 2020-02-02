@@ -8,10 +8,9 @@
         <h5 class="card-title">
           Example card
         </h5>
-        <p
-          class="card-text"
-        >
-          Some quick example text to build on the card title and make up the bulk of the card's content.
+        <p class="card-text">
+          Some quick example text to build on the card title and make up the
+          bulk of the card's content.
         </p>
         <a
           href="#"
@@ -22,14 +21,9 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  props: {
-
-  },
-  methods: {
-    
-  },
-})
+<script>
+export default {
+  props: {},
+  methods: {},
+};
 </script>
