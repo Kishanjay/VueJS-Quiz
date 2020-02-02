@@ -11,7 +11,6 @@
         <label>Answer
           <textarea
             class="form-control"
-            rows="3"
           />
         </label>
       </div>
@@ -39,6 +38,11 @@
 export default {
   props: {
 
+  },
+  data() {
+    return {
+
+    };
   },
   mounted() {
     this.startQuiz();

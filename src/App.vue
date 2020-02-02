@@ -8,7 +8,7 @@
 
 <script>
 import TheNavbar from './TheNavbar.vue';
-import FmQuiz from './FmQuiz.vue';
+import FmQuiz from './components/quiz/FmQuiz.vue';
 
 export default {
   components: {
