@@ -38,4 +38,5 @@ Since this is a small project the framework of choice will be VueJS and Bootstra
 Also because the assignment explicitly states not to use any boilerplates, no scaffolding tools are being used.
 
 ## Development
-The code of this project should adhere to the airbnb styleguide.
+The code of this project should adhere to the VueJS and airbnb styleguide.
+Run `npm run lint` to lint the source-code.
