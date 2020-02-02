@@ -15,6 +15,10 @@ We created the following assignment to test your Frontend skills/ knowledge. Ple
 
 # Setup
 
+## Test environment
+NPM `v6.11.3`
+
+MacOS `v10.14.3`
 
 # Design decisions
 Effectively this application needs to do the following:
