@@ -1,6 +1,9 @@
 <template>
   <div class="container">
     <the-navbar />
+    <button class="btn btn-primary">
+      Start Quiz
+    </button>
   </div>
 </template>
 
