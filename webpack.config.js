@@ -1,9 +1,22 @@
+const path = require('path');
 const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { HotModuleReplacementPlugin } = require('webpack');
 
 module.exports = {
-    mode: 'development',
-    entry: './src/app.js',
+    target: 'web',
+    entry: path.resolve(__dirname, 'src', 'app.js'),
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].[hash].js'
+    },
+    devServer: {
+        port: 3000,
+        hot: true,
+        open: true,
+        historyApiFallback: true,
+    },
     module: {
         rules: [
             {
@@ -13,9 +26,11 @@ module.exports = {
         ]
     },
     plugins: [
-        new VueLoaderPlugin(),
+        new HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
-            template: 'public/index.html',
+            template: path.resolve(__dirname, 'public', 'index.html'),
         }),
+        new VueLoaderPlugin(),
+        new CleanWebpackPlugin(),
     ]
 }
