@@ -21,8 +21,12 @@ module.exports = {
         rules: [
             {
                 test: /\.vue$/,
-                loader: 'vue-loader'
-            }
+                use: ['vue-loader']
+            },
+            {
+                test: /\.(s?)css$/,
+                use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+            },
         ]
     },
     plugins: [
@@ -32,5 +36,5 @@ module.exports = {
         }),
         new VueLoaderPlugin(),
         new CleanWebpackPlugin(),
-    ]
+    ],
 }
