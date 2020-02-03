@@ -10,13 +10,14 @@
       <label>Answer
         <textarea
           class="form-control"
+          :model="answer"
         />
       </label>
     </div>
     <button
       type="button"
       class="btn btn-primary"
-      @click="submitAnswer()"
+      @click="submitAnswer"
     >
       Submit answer
     </button>
@@ -51,11 +52,15 @@ export default {
   },
   data() {
     return {
+      answer: null,
+      submitted: false,
     };
   },
-  created() {
-  },
   methods: {
+    submitAnswer() {
+      this.$emit('on:submit', this.answer);
+      this.submitted = true;
+    },
   },
 };
 </script>

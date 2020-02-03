@@ -1,17 +1,22 @@
 <template>
   <div class="quiz">
     <div class="card">
-      <div v-if="loading">
+      <div v-if="loadingQuestion">
         loading
+      </div>
+      <div v-if="finished">
+        Finished quiz
       </div>
 
       <base-quiz-question
-        v-if="currentQuestion"
+        v-if="currentQuestion && !loadingQuestion && !finished"
         :question-id="questions.length.toString()"
         :question="currentQuestion.question"
         :answers="[...currentQuestion.incorrect_answers, currentQuestion.correct_answer]"
         :type="currentQuestion.type"
         :difficulty="currentQuestion.difficulty"
+
+        @on:submit="submitAnswer"
       />
 
       <div class="progress">
@@ -37,32 +42,34 @@ export default {
     BaseQuizQuestion,
   },
   props: {
+    questions: {
+      type: Array,
+      required: true,
+    },
+    maxNumberOfQuestions: {
+      type: Number,
+      default: 10,
+      required: false,
+    },
     secondsToAnswer: {
       type: Number,
       default: 30,
       required: false,
     },
-    questions: {
-      type: Array,
-      required: true,
+    loadingQuestion: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   data() {
     return {
-      loading: false,
+      finished: false,
     };
   },
   computed: {
     currentQuestion() {
       return last(this.questions);
-    },
-  },
-  watch: {
-    questions: {
-      deep: true,
-      handler() {
-        this.loading = false;
-      },
     },
   },
   created() {
@@ -72,12 +79,20 @@ export default {
     startQuiz() {
       this.showNextQuestion();
     },
-    submitAnswer() {
+    submitAnswer(question, answer) {
+      if (this.questions.length >= this.maxNumberOfQuestions) {
+        this.finished = true;
+        return;
+      }
       this.showNextQuestion();
     },
     showNextQuestion() {
-      this.loading = true;
+      if (this.quizFinished) {
+        return;
+      }
+
       this.$emit('load:next-question');
+      this.questionsLoaded += 1;
     },
   },
 };

@@ -8,10 +8,14 @@
 
     <base-quiz
       :seconds-to-answer="30"
+
       :questions="questions"
-      :finished="false"
-      :loading="loading"
+      :number-of-questions="10"
+
+      :loading-question="loadingQuestion"
       @load:next-question="loadNextQuestion"
+
+      @on:finish="finish"
     />
   </main>
 </template>
@@ -33,15 +37,12 @@ export default {
     return {
       activeError: null,
       questions: [],
-      loading: false,
+      loadingQuestion: false,
     };
-  },
-  created() {
-    this.loadNextQuestion();
   },
   methods: {
     loadNextQuestion() {
-      this.loading = true;
+      this.loadingQuestion = true;
       quizRepository.getQuestion().then(({ data, status }) => {
         if (status !== 200) {
           this.error('failed loading quiz question', 1);
@@ -54,8 +55,12 @@ export default {
         }
         this.questions.push(question);
       }).finally(() => {
-        this.loading = false;
+        this.loadingQuestion = false;
       });
+    },
+
+    finish() {
+
     },
 
     error(errorMessage, errorCode = null) {
