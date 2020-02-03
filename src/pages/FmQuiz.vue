@@ -16,32 +16,57 @@
       @click:cta="startQuiz"
     />
 
-    <div
-      v-if="quizStarted"
-      class="alert alert-light mb-0 d-flex justify-content-between align-items-center"
-      role="alert"
-    >
-      <button
-        type="button"
-        class="btn btn-danger"
-        @click="abortQuiz"
+    <template v-if="quizStarted">
+      <div
+        v-if="!quizFinished"
+        class="alert alert-light mb-0 d-flex justify-content-between align-items-center"
+        role="alert"
       >
-        Abort quiz
-      </button>
-      Playing as {{ username }}
-    </div>
-    <base-quiz
-      v-if="quizStarted"
-      :seconds-to-answer="30"
+        <button
+          type="button"
+          class="btn btn-danger"
+          @click="resetQuiz"
+        >
+          Abort quiz
+        </button>
+        Playing as {{ username }}
+      </div>
+      <base-quiz
+        :seconds-to-answer="30"
 
-      :questions="questions"
-      :max-number-of-questions="3"
+        :questions="questions"
+        :max-number-of-questions="3"
 
-      :loading-question="loadingQuestion"
-      @load:next-question="loadNextQuestion"
+        :loading-question="loadingQuestion"
+        @load:next-question="loadNextQuestion"
 
-      @on:finish="quizFinished"
-    />
+        @on:finish="finishQuiz"
+      />
+    </template>
+
+    <template v-if="quizFinished">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">
+            You scored: {{ quizResult.score }}%
+          </h5>
+          <p class="card-text">
+            Compare your score on the scoreboard or try again!
+          </p>
+          <button
+            class="btn btn-primary"
+            @click="resetQuiz"
+          >
+            Try again
+          </button>
+          <button
+            class="btn btn-secondary"
+          >
+            Scoreboard
+          </button>
+        </div>
+      </div>
+    </template>
   </main>
 </template>
 
@@ -68,6 +93,9 @@ export default {
 
       username: null,
       quizStarted: false,
+      quizFinished: false,
+
+      quizResult: null,
     };
   },
   methods: {
@@ -75,7 +103,7 @@ export default {
       this.username = username;
       this.quizStarted = true;
     },
-    abortQuiz() {
+    resetQuiz() {
       this.activeError = null;
       this.questions = [];
       this.loadingQuestion = false;
@@ -83,8 +111,14 @@ export default {
       this.username = null;
       this.quizStarted = false;
     },
-    quizFinished(scorePercentage, answers) {
-      console.log({ scorePercentage, answers });
+    finishQuiz(scorePercentage, answers) {
+      this.quizResult = {
+        score: scorePercentage,
+        answers,
+        questions: this.questions,
+      };
+
+      this.quizFinished = true;
     },
     error(errorMessage, errorCode = null) {
       this.showError(errorMessage, errorCode, 1000);

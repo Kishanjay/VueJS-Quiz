@@ -5,7 +5,12 @@
         loading
       </div>
       <div v-if="quizFinished">
-        Quiz finished
+        <div
+          class="alert alert-success"
+          role="alert"
+        >
+          Congratulations you've finished the quiz
+        </div>
       </div>
 
       <base-quiz-question
