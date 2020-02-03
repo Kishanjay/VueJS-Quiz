@@ -9,7 +9,7 @@
     > {{ difficulty }} </span>
 
     <p>
-      {{ question }} {{ answer }}
+      {{ question }}
     </p>
 
     <div class="form-group">
@@ -23,6 +23,7 @@
         <label
           v-for="possibleAnswer in answers"
           :key="possibleAnswer"
+          class="form-check"
         >
           <input
             v-model="answer"
