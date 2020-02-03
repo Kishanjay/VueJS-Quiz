@@ -16,10 +16,12 @@ export default {
     maxProgress: {
       type: Number,
       required: true,
+      validate: (p) => p > 0,
     },
     currentProgress: {
       type: Number,
       required: true,
+      validate: (p) => p >= 0,
     },
   },
   methods: {

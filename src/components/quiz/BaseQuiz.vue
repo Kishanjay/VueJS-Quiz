@@ -10,7 +10,7 @@
 
       <base-quiz-question
         v-if="currentQuestion && !loadingQuestion && !quizFinished"
-        :question-id="questions.length.toString()"
+        :question-id="currentQuestion.id"
         :question="currentQuestion.question"
         :answers="[...currentQuestion.incorrect_answers, currentQuestion.correct_answer]"
         :type="currentQuestion.type"
@@ -76,9 +76,16 @@ export default {
     startQuiz() {
       this.showNextQuestion();
     },
-    submitAnswer(question, answer) {
-      // eslint-disable-next-line no-console
-      console.log({ question, answer });
+    submitAnswer(questionId, answer) {
+      const question = this.questions.find((q) => q.id === questionId);
+      if (!question) {
+        throw new Error('question not found');
+      }
+
+      question.answer = {
+        correct: this.isCorrectAnswer(answer, question.correct_answer),
+        value: answer,
+      };
 
       if (this.questions.length >= this.maxNumberOfQuestions) {
         this.quizFinished = true;
@@ -88,6 +95,15 @@ export default {
     },
     showNextQuestion() {
       this.$emit('load:next-question');
+    },
+    isCorrectAnswer(actual, expected) {
+      const normalizedActual = this.normalizeAnswer(actual);
+      const normalizedExpected = this.normalizeAnswer(expected);
+      return normalizedActual === normalizedExpected;
+    },
+    normalizeAnswer(answer) {
+      if (!answer) { return null; }
+      return answer.trim().toLowerCase();
     },
   },
 };
