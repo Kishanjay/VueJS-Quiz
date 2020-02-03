@@ -54,6 +54,7 @@
     <button
       class="btn btn-primary"
       type="button"
+      @click="submitAnswer"
     >
       Submit answer
       <span v-if="timeout">|
