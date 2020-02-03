@@ -1,9 +1,11 @@
 <template>
   <div class="quiz">
     <div class="card">
-      <div v-if="loadingQuestion">
-        loading
-      </div>
+      <base-loader
+        v-if="loadingQuestion"
+        title="Loading question..."
+        class="p-4 m-4"
+      />
       <div v-if="quizFinished">
         <div
           class="alert alert-success"
@@ -35,11 +37,14 @@
 <script>
 import { last } from 'lodash';
 
+import BaseLoader from '../loader/BaseLoader.vue';
+
 import BaseQuizQuestion from './BaseQuizQuestion.vue';
 import BaseQuizProgress from './BaseQuizProgress.vue';
 
 export default {
   components: {
+    BaseLoader,
     BaseQuizQuestion,
     BaseQuizProgress,
   },
