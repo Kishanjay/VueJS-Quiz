@@ -16,6 +16,7 @@
         :type="currentQuestion.type"
         :difficulty="currentQuestion.difficulty"
 
+        :timeout="secondsToAnswer"
         @on:submit="submitAnswer"
       />
 
@@ -62,6 +63,7 @@ export default {
   data() {
     return {
       quizFinished: false,
+      answers: [],
     };
   },
   computed: {
@@ -88,13 +90,15 @@ export default {
         throw new Error('question not found');
       }
 
-      question.answer = {
+      this.answers.push({
+        questionId,
         correct: this.isCorrectAnswer(answer, question.correct_answer),
         value: answer,
-      };
+      });
 
       if (this.questions.length >= this.maxNumberOfQuestions) {
         this.quizFinished = true;
+        this.$emit('on:finish', this.getScorePercentage(), this.answers);
         return;
       }
       this.showNextQuestion();
@@ -111,8 +115,20 @@ export default {
       if (!answer) { return null; }
       return answer.trim().toLowerCase();
     },
+    getScorePercentage() {
+      const totalCorrect = this.answers.reduce((correct, answer) => {
+        if (answer.correct) {
+          return correct + 1;
+        }
+        return correct;
+      }, 0);
+
+      console.log({ totalCorrect, a: this.answers });
+      return (totalCorrect / this.answers.length) * 100;
+    },
     unloadProtection(event) {
       if (this.questions.length < this.maxNumberOfQuestions) {
+        // eslint-disable-next-line no-param-reassign
         event.returnValue = 'Are you sure you want to quit the quiz?';
       }
     },

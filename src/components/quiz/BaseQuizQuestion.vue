@@ -1,3 +1,4 @@
+<script>/* eslint-disable vue/no-v-html */</script>
 <template>
   <div class="question p-4">
     <h1>
@@ -8,17 +9,25 @@
       :class="`badge ${difficultyColorClassMapping[difficulty].badge}`"
     > {{ difficulty }} </span>
 
-    <p>
-      {{ question }}
-    </p>
+    <p v-html="sanitizeHtml(question)" />
 
     <div class="form-group">
-      <label v-if="type==='boolean'">
-        <input
-          v-model="answer"
-          type="checkbox"
-        > True
-      </label>
+      <div v-if="type==='boolean'">
+        <label class="form-check">
+          <input
+            v-model="answer"
+            type="radio"
+            value="True"
+          > True
+        </label>
+        <label class="form-check">
+          <input
+            v-model="answer"
+            type="radio"
+            value="False"
+          > False
+        </label>
+      </div>
       <div v-else-if="type==='multiple'">
         <label
           v-for="possibleAnswer in answers"
@@ -29,7 +38,7 @@
             v-model="answer"
             type="radio"
             :value="possibleAnswer"
-          > {{ possibleAnswer }}
+          > {{ sanitizeHtml(possibleAnswer) }}
         </label>
       </div>
       <label
@@ -43,15 +52,18 @@
       </label>
     </div>
     <button
-      type="button"
       class="btn btn-primary"
-      @click="submitAnswer"
+      type="button"
     >
       Submit answer
+      <span v-if="timeout">|
+        {{ secondsLeft }}
+      </span>
     </button>
   </div>
 </template>
 <script>
+import sanitizeHtml from 'sanitize-html';
 
 export default {
   props: {
@@ -77,6 +89,11 @@ export default {
       type: Array,
       required: true,
     },
+    timeout: {
+      type: Number,
+      required: false,
+      default: null,
+    }
   },
   data() {
     return {
@@ -89,14 +106,26 @@ export default {
         medium: { text: 'text-warning', badge: 'badge-warning' },
         hard: { text: 'text-danger', badge: 'badge-danger' },
       },
+
+      secondsLeft: this.timeout,
     };
+  },
+  created() {
+    if (this.timeout) {
+      setInterval(() => {
+        this.secondsLeft -= 1;
+        if (this.secondsLeft <= 0){
+          this.submitAnswer();
+        }
+      }, 1000)
+    }
   },
   methods: {
     submitAnswer() {
-      console.log({ a: this.answers });
       this.$emit('on:submit', this.questionId, this.answer);
       this.submitted = true;
     },
+    sanitizeHtml,
   },
 };
 </script>

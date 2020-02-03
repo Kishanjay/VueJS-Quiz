@@ -10,7 +10,7 @@
       :seconds-to-answer="30"
 
       :questions="questions"
-      :number-of-questions="10"
+      :max-number-of-questions="3"
 
       :loading-question="loadingQuestion"
       @load:next-question="loadNextQuestion"
@@ -60,8 +60,8 @@ export default {
       });
     },
 
-    finish() {
-
+    finish(scorePercentage, answers) {
+      console.log({ scorePercentage, answers });
     },
 
     error(errorMessage, errorCode = null) {
