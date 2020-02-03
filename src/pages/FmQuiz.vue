@@ -15,6 +15,21 @@
 
       @click:cta="startQuiz"
     />
+
+    <div
+      v-if="quizStarted"
+      class="alert alert-light mb-0 d-flex justify-content-between align-items-center"
+      role="alert"
+    >
+      <button
+        type="button"
+        class="btn btn-danger"
+        @click="abortQuiz"
+      >
+        Abort quiz
+      </button>
+      Playing as {{ username }}
+    </div>
     <base-quiz
       v-if="quizStarted"
       :seconds-to-answer="30"
@@ -57,9 +72,16 @@ export default {
   },
   methods: {
     startQuiz(username) {
-      console.log('starting quiz');
       this.username = username;
       this.quizStarted = true;
+    },
+    abortQuiz() {
+      this.activeError = null;
+      this.questions = [];
+      this.loadingQuestion = false;
+
+      this.username = null;
+      this.quizStarted = false;
     },
     quizFinished(scorePercentage, answers) {
       console.log({ scorePercentage, answers });
