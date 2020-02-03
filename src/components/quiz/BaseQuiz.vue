@@ -69,6 +69,12 @@ export default {
       return last(this.questions);
     },
   },
+  beforeMount() {
+    window.addEventListener('beforeunload', this.unloadProtection);
+  },
+  beforeDestroy() {
+    window.removeEventListener('beforeunload', this.unloadProtection);
+  },
   created() {
     this.startQuiz();
   },
@@ -104,6 +110,11 @@ export default {
     normalizeAnswer(answer) {
       if (!answer) { return null; }
       return answer.trim().toLowerCase();
+    },
+    unloadProtection(event) {
+      if (this.questions.length < this.maxNumberOfQuestions) {
+        event.returnValue = 'Are you sure you want to quit the quiz?';
+      }
     },
   },
 };

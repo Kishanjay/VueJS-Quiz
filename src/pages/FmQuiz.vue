@@ -53,7 +53,7 @@ export default {
           this.error('failed loading quiz question', 2);
           return;
         }
-        question.id = (this.questions.length + 1).toString(); // store an unique id for the questions
+        question.id = (this.questions.length + 1).toString(); // add unique id to question
         this.questions.push(question);
       }).finally(() => {
         this.loadingQuestion = false;
