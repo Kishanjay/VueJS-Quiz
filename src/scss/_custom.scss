@@ -1,5 +1,10 @@
+$frontmen_purple: #201e33;
+$frontmen_cyan: #03cccb;
+$frontmen_orange: #ef632c;
+
 $theme-colors: (
-    "primary": #201e33, // frontmen purple
-    "secondary": #03cccb, // frontmen cyan
-    "success": #ef632c, // frontmen orange
+    "dark": $frontmen_purple,
+    "primary": $frontmen_purple,
+    "secondary": $frontmen_cyan,
+    "success": $frontmen_orange,
 );

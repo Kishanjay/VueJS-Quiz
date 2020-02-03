@@ -1,9 +1,10 @@
 <template>
   <div class="container">
-    <the-navbar />
-
-    <fm-quiz />
-    <the-footer />
+    <div class="shadow">
+      <the-navbar />
+      <fm-quiz />
+      <the-footer />
+    </div>
   </div>
 </template>
 
