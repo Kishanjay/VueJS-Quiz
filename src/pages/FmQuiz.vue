@@ -6,7 +6,17 @@
       :code="activeError.code"
     />
 
+    <base-jumbotron
+      v-if="!quizStarted"
+      title="Frontmen Quiz"
+      description="Get ready to start the frontmen quiz"
+      input="Enter your name"
+      cta="Start quiz"
+
+      @click:cta="startQuiz"
+    />
     <base-quiz
+      v-if="quizStarted"
       :seconds-to-answer="30"
 
       :questions="questions"
@@ -15,7 +25,7 @@
       :loading-question="loadingQuestion"
       @load:next-question="loadNextQuestion"
 
-      @on:finish="finish"
+      @on:finish="quizFinished"
     />
   </main>
 </template>
@@ -25,22 +35,49 @@ import { first } from 'lodash';
 
 import quizRepository from '../repositories/quizRepository';
 
-import BaseAlert from '../components/alert/BaseAlert.vue';
+import BaseAlert from '../components/text/BaseAlert.vue';
 import BaseQuiz from '../components/quiz/BaseQuiz.vue';
+import BaseJumbotron from '../components/text/BaseJumbotron.vue';
 
 export default {
   components: {
     BaseAlert,
     BaseQuiz,
+    BaseJumbotron,
   },
   data() {
     return {
       activeError: null,
       questions: [],
       loadingQuestion: false,
+
+      username: null,
+      quizStarted: false,
     };
   },
   methods: {
+    startQuiz(username) {
+      console.log('starting quiz');
+      this.username = username;
+      this.quizStarted = true;
+    },
+    quizFinished(scorePercentage, answers) {
+      console.log({ scorePercentage, answers });
+    },
+    error(errorMessage, errorCode = null) {
+      this.showError(errorMessage, errorCode, 1000);
+    },
+    showError(errorMessage, errorCode, duration) {
+      this.activeError = {
+        message: errorMessage,
+        code: errorCode,
+      };
+
+      setTimeout(() => {
+        this.activeError = null;
+      }, duration);
+    },
+
     loadNextQuestion() {
       this.loadingQuestion = true;
       quizRepository.getQuestion().then(({ data, status }) => {
@@ -58,24 +95,6 @@ export default {
       }).finally(() => {
         this.loadingQuestion = false;
       });
-    },
-
-    finish(scorePercentage, answers) {
-      console.log({ scorePercentage, answers });
-    },
-
-    error(errorMessage, errorCode = null) {
-      this.showError(errorMessage, errorCode, 1000);
-    },
-    showError(errorMessage, errorCode, duration) {
-      this.activeError = {
-        message: errorMessage,
-        code: errorCode,
-      };
-
-      setTimeout(() => {
-        this.activeError = null;
-      }, duration);
     },
   },
 };
