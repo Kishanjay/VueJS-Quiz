@@ -35,7 +35,7 @@ Effectively this application needs to do the following:
 - Store scores and standing locally
 
 Since this is a small project the framework of choice will be VueJS and Bootstrap 4 will be used for styling.
-Also because the assignment explicitly states not to use any boilerplates, no scaffolding tools are being used.
+Also because the assignment explicitly states not to use any boilerplates, no scaffolding tools have been used.
 
 ## Development
 The code of this project should adhere to the VueJS and airbnb styleguide.

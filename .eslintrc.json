@@ -8,5 +8,10 @@
       "error", 
       {"devDependencies": true}
     ]
-  }
+  },
+  "globals": {
+    "describe": "readonly",
+    "it": "readonly",
+    "expect": "readonly"
+}
 }
