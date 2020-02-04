@@ -17,14 +17,15 @@
       </thead>
       <tbody>
         <tr
-          v-for="(scoreboardEntry, index) in scoreboard"
+          v-for="(scoreboardScoreEntry, index) in scoreboardScores"
           :key="index"
+          :class="{'table-primary': scoreboardScoreEntry.id === highlightedId}"
         >
           <th scope="row">
             {{ index+1 }}
           </th>
-          <td>{{ scoreboardEntry.username }}</td>
-          <td>{{ scoreboardEntry.score }}</td>
+          <td>{{ scoreboardScoreEntry.username }}</td>
+          <td>{{ scoreboardScoreEntry.score }}</td>
         </tr>
       </tbody>
     </table>
@@ -34,9 +35,14 @@
 <script>
 export default {
   props: {
-    scoreboard: {
+    scoreboardScores: {
       required: true,
       type: Array,
+    },
+    highlightedId: {
+      required: false,
+      type: String,
+      default: null,
     },
   },
 };

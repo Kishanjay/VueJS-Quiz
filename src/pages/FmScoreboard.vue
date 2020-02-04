@@ -1,6 +1,8 @@
 <template>
   <div class="card p-4">
-    <base-scoreboard :scoreboard="scoreboardScores" />
+    <base-scoreboard
+      :scoreboard-scores="scoreboardScores"
+    />
   </div>
 </template>
 

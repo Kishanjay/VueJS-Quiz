@@ -1,4 +1,5 @@
 import { isArray } from 'util';
+import { generateUUID } from './helper';
 
 const STORAGE_KEY = 'scoreboardStorage';
 
@@ -42,9 +43,13 @@ export const addScoreboardScore = async (score, username) => {
   }
 
   const scoreboardScores = await loadScoreboardScores();
-  scoreboardScores.push({ username, score });
+  const id = generateUUID();
+  scoreboardScores.push({ username, score, id });
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(scoreboardScores));
+
+  const resultingScoreboardScores = await listScoreboardScores();
+  return { insertId: id, scoreboardScores: resultingScoreboardScores };
 };
 
 export const deleteScoreboardScores = async () => {

@@ -46,6 +46,12 @@
 
     <template v-if="quizFinished">
       <base-quiz-result :quiz-result="quizResult" />
+      <base-scoreboard
+        v-if="scoreboardScores"
+        class="p-4"
+        :scoreboard-scores="scoreboardScores"
+        :highlighted-id="scoreboardScoreInsertId"
+      />
       <div class="card">
         <div class="card-body">
           <button
@@ -74,6 +80,7 @@ import scoreboardRepository from '../repositories/scoreboardRepository';
 
 import BaseAlert from '../components/text/BaseAlert.vue';
 import BaseJumbotron from '../components/text/BaseJumbotron.vue';
+import BaseScoreboard from '../components/scoreboard/BaseScoreboard.vue';
 import BaseQuiz from '../components/quiz/BaseQuiz.vue';
 import BaseQuizResult from '../components/quiz/BaseQuizResult.vue';
 
@@ -81,6 +88,7 @@ export default {
   components: {
     BaseAlert,
     BaseJumbotron,
+    BaseScoreboard,
     BaseQuiz,
     BaseQuizResult,
   },
@@ -95,6 +103,8 @@ export default {
       quizFinished: false,
 
       quizResult: null,
+      scoreboardScores: null,
+      scoreboardScoreInsertId: null,
     };
   },
   methods: {
@@ -117,6 +127,8 @@ export default {
       this.quizFinished = false;
 
       this.quizResult = null;
+      this.scoreboardScores = null;
+      this.scoreboardScoreInsertId = null;
     },
     finishQuiz(scorePercentage, answers) {
       const questions = this.questions.map((q) => ({ ...q })); // copies array of objects
@@ -130,13 +142,14 @@ export default {
         questions,
       };
 
-      console.log({ r: this.quizResult });
-
       this.quizFinished = true;
       this.saveQuizResult(this.quizResult, this.username);
     },
     saveQuizResult(quizResult, username) {
-      scoreboardRepository.addScore(quizResult.score, username).catch((e) => {
+      scoreboardRepository.addScore(quizResult.score, username).then(({ insertId, scoreboardScores }) => {
+        this.scoreboardScores = scoreboardScores;
+        this.scoreboardScoreInsertId = insertId;
+      }).catch((e) => {
         this.error(e, 'sbr-1');
       });
     },
