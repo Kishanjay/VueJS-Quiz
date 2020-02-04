@@ -1,10 +1,18 @@
 $frontmen_purple: #201e33;
 $frontmen_cyan: #03cccb;
 $frontmen_orange: #ef632c;
+$frontmen_dark_orange: #6f2804;
+$frontmen_grey: #c7c7cc;
+$fontmen_mid_grey: #8f8d99;
+$frontmen_dark_grey: #4d4a5c;
 
 $theme-colors: (
-    "dark": $frontmen_purple,
-    "primary": $frontmen_purple,
+    "primary": $frontmen_orange,
     "secondary": $frontmen_cyan,
-    "success": $frontmen_orange,
+    "success": $frontmen_cyan,
+    "danger": $frontmen_dark_orange,
+    "warning": $frontmen_orange,
+    "info": $frontmen_cyan,
+    "light": $frontmen_grey,
+    "dark": $frontmen_purple,
 );
