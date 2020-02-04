@@ -1,5 +1,7 @@
 <template>
-  <base-scoreboard :scoreboard="scoreboardScores" />
+  <div class="card p-4">
+    <base-scoreboard :scoreboard="scoreboardScores" />
+  </div>
 </template>
 
 <script>

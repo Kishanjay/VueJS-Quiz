@@ -59,11 +59,12 @@
           >
             Try again
           </button>
-          <button
+          <router-link
+            to="/scoreboard"
             class="btn btn-secondary"
           >
             Scoreboard
-          </button>
+          </router-link>
         </div>
       </div>
     </template>
