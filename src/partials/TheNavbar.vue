@@ -7,16 +7,20 @@
 
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a
+        <router-link
+          to="/quiz"
           class="nav-link"
-          href="#"
-        >Quiz <span class="sr-only">(current)</span></a>
+        >
+          Quiz  <span class="sr-only">(current)</span></a>
+        </router-link>
       </li>
       <li class="nav-item">
-        <a
+        <router-link
+          to="/scoreboard"
           class="nav-link"
-          href="#"
-        >Scoreboard</a>
+        >
+          Scoreboard
+        </router-link>
       </li>
     </ul>
   </nav>

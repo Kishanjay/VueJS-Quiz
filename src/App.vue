@@ -2,7 +2,7 @@
   <div class="container">
     <div class="shadow">
       <the-navbar />
-      <fm-quiz />
+      <router-view />
       <the-footer />
     </div>
   </div>
@@ -12,13 +12,10 @@
 import TheNavbar from './partials/TheNavbar.vue';
 import TheFooter from './partials/TheFooter.vue';
 
-import FmQuiz from './pages/FmQuiz.vue';
-
 export default {
   components: {
     TheNavbar,
     TheFooter,
-    FmQuiz,
   },
   props: {},
   methods: {},
