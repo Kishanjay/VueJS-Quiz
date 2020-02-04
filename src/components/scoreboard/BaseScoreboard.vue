@@ -6,7 +6,7 @@
           #
         </th>
         <th scope="col">
-          Name
+          Username
         </th>
         <th scope="col">
           Score
@@ -14,13 +14,27 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr
+        v-for="(scoreboardEntry, index) in scoreboard"
+        :key="index"
+      >
         <th scope="row">
-          1
+          {{ index+1 }}
         </th>
-        <td>Mark</td>
-        <td>200</td>
+        <td>{{ scoreboardEntry.username }}</td>
+        <td>{{ scoreboardEntry.score }}</td>
       </tr>
     </tbody>
   </table>
 </template>
+
+<script>
+export default {
+  props: {
+    scoreboard: {
+      required: true,
+      type: Array,
+    },
+  },
+};
+</script>

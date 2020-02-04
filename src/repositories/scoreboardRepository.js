@@ -1,37 +1,50 @@
+import { isArray } from 'util';
+
 const STORAGE_KEY = 'scoreboardStorage';
 
-export const isValidScoreboardScore = (score) => {
+const isValidScoreboardScore = (score) => {
   if (!('score' in score)) {
+    // eslint-disable-next-line no-console
+    console.warning(`missing 'score' property on score: ${score}`);
     return false;
   }
   if (!('username' in score)) {
+    // eslint-disable-next-line no-console
+    console.warning(`missing 'username' property on score: ${score}`);
     return false;
   }
   return true;
 };
 
-export const listScoreboardScores = async (filter) => {
-  let result = localStorage.getItem(STORAGE_KEY) || [];
+const loadScoreboardScores = async () => {
+  let scoreboardScores = localStorage.getItem(STORAGE_KEY);
+  scoreboardScores = JSON.parse(scoreboardScores);
 
-  if (filter.username) {
-    result = result.filter((s) => s.username === filter.username);
+  if (!scoreboardScores || !isArray(scoreboardScores)) {
+    scoreboardScores = [];
   }
+
+  return scoreboardScores;
+};
+
+export const listScoreboardScores = async () => {
+  let result = await loadScoreboardScores();
 
   // ignore invalid data (localstorage is user modifyable)
   result = result.filter((s) => isValidScoreboardScore(s));
 
-  return result.sort((a, b) => a.score - b.score);
+  return result.sort((a, b) => b.score - a.score);
 };
 
 export const addScoreboardScore = async (score, username) => {
-  if (!score) {
+  if (score === null) {
     throw new Error('score required for adding scoreboard score');
   }
 
-  const scoreboardScores = localStorage.getItem(STORAGE_KEY) || [];
-  scoreboardScores.push(username, score);
+  const scoreboardScores = await loadScoreboardScores();
+  scoreboardScores.push({ username, score });
 
-  localStorage.setItem(STORAGE_KEY, scoreboardScores);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(scoreboardScores));
 };
 
 export const deleteScoreboardScores = async () => {

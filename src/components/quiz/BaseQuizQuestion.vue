@@ -38,7 +38,7 @@
             v-model="answer"
             type="radio"
             :value="possibleAnswer"
-          > {{ sanitizeHtml(possibleAnswer) }}
+          > <span v-html="sanitizeHtml(possibleAnswer)" />
         </label>
       </div>
       <label

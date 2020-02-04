@@ -133,8 +133,8 @@ export default {
         return correct;
       }, 0);
 
-      console.log({ totalCorrect, a: this.answers });
-      return (totalCorrect / this.answers.length) * 100;
+      const scorePercentage = (totalCorrect / this.answers.length) * 100;
+      return scorePercentage.toFixed(2);
     },
     unloadProtection(event) {
       if (this.questions.length < this.maxNumberOfQuestions) {

@@ -1,5 +1,5 @@
 <template>
-  <base-scoreboard :scores="scores" />
+  <base-scoreboard :scoreboard="scoreboardScores" />
 </template>
 
 <script>
@@ -12,12 +12,12 @@ export default {
   },
   data() {
     return {
-      scores: [],
+      scoreboardScores: [],
     };
   },
   created() {
     scoreboardRepository.listScores().then((data) => {
-      this.scores = data;
+      this.scoreboardScores = data;
     });
   },
 };

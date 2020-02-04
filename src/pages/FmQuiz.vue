@@ -102,6 +102,11 @@ export default {
   },
   methods: {
     startQuiz(username) {
+      if (username === 'RESET ALL') {
+        scoreboardRepository.deleteScores();
+        this.error('failed starting quiz', 'EASTEREGG-1');
+        return;
+      }
       this.username = username;
       this.quizStarted = true;
     },
@@ -127,15 +132,13 @@ export default {
       this.saveQuizResult(this.quizResult, this.username);
     },
     saveQuizResult(quizResult, username) {
-      scoreboardRepository.addScore(username, quizResult.score).then(() => {
-        console.log('done');
-      }).catch(() => {
-        console.log('failed storing score');
+      scoreboardRepository.addScore(quizResult.score, username).catch((e) => {
+        this.error(e, 'sbr-1');
       });
     },
 
     error(errorMessage, errorCode = null) {
-      this.showError(errorMessage, errorCode, 1000);
+      this.showError(errorMessage, errorCode, 10000);
     },
     showError(errorMessage, errorCode, duration) {
       this.activeError = {
