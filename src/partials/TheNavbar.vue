@@ -1,9 +1,11 @@
 <template>
   <nav class="navbar navbar-dark bg-dark">
-    <a
+    <router-link
+      to="/quiz"
       class="navbar-brand"
-      href="#"
-    >Frontmen Quiz</a>
+    >
+      VueJs Quiz
+    </router-link>
 
     <ul class="navbar-nav">
       <li class="nav-item">

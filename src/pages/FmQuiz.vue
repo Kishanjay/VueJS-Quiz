@@ -8,10 +8,10 @@
 
     <base-jumbotron
       v-if="!quizStarted"
-      title="Frontmen Quiz"
-      description="Get ready to start the frontmen quiz"
-      input="Enter your name"
-      cta="Start quiz"
+      title="So you think you can quiz?"
+      description="Get ready to make your brain sweat, only one can become the quizmaster!"
+      input="Enter your nickname"
+      cta="Lets get busy"
 
       @click:cta="startQuiz"
     />
@@ -48,23 +48,45 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">
-            You scored: {{ quizResult.score }}%
+            Your quiz score: {{ quizResult.score }}%
           </h5>
-          <p class="card-text">
-            Compare your score on the scoreboard or try again!
-          </p>
-          <button
-            class="btn btn-primary"
-            @click="resetQuiz"
-          >
-            Try again
-          </button>
-          <router-link
-            to="/scoreboard"
-            class="btn btn-secondary"
-          >
-            Scoreboard
-          </router-link>
+          <div class="list-group">
+            <div
+              v-for="question in quizResult.questions"
+              :key="question.id"
+              class="list-group-item"
+            >
+              <h5>{{ question.question }}</h5>
+              <div
+                v-if="question.user_answer.correct"
+                class="alert alert-success"
+              >
+                {{ question.user_answer.value }}
+              </div>
+              <div
+                v-if="!question.user_answer.correct"
+                class="alert alert-danger"
+              >
+                {{ question.user_answer.value }} <br>
+                <b>Correct answer:</b>
+                {{ question.correct_answer }}
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <button
+              class="btn btn-primary"
+              @click="resetQuiz"
+            >
+              Try again
+            </button>
+            <router-link
+              to="/scoreboard"
+              class="btn btn-secondary"
+            >
+              Scoreboard
+            </router-link>
+          </div>
         </div>
       </div>
     </template>
@@ -123,11 +145,18 @@ export default {
       this.quizResult = null;
     },
     finishQuiz(scorePercentage, answers) {
+      const questions = this.questions.map((q) => ({ ...q })); // copies array of objects
+      questions.forEach((question) => { // add userAnswer to every question
+        // eslint-disable-next-line no-param-reassign
+        question.user_answer = answers.find((answer) => answer.questionId === question.id);
+      });
+
       this.quizResult = {
         score: scorePercentage,
-        answers,
-        questions: this.questions,
+        questions,
       };
+
+      console.log({ r: this.quizResult });
 
       this.quizFinished = true;
       this.saveQuizResult(this.quizResult, this.username);
