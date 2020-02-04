@@ -35,7 +35,7 @@
         :seconds-to-answer="30"
 
         :questions="questions"
-        :max-number-of-questions="3"
+        :max-number-of-questions="10"
 
         :loading-question="loadingQuestion"
         @load:next-question="loadNextQuestion"
@@ -146,6 +146,7 @@ export default {
       this.saveQuizResult(this.quizResult, this.username);
     },
     saveQuizResult(quizResult, username) {
+      // eslint-disable-next-line max-len
       scoreboardRepository.addScore(quizResult.score, username).then(({ insertId, scoreboardScores }) => {
         this.scoreboardScores = scoreboardScores;
         this.scoreboardScoreInsertId = insertId;
