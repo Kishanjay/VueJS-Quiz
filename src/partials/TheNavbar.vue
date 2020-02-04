@@ -6,12 +6,12 @@
     >Frontmen Quiz</a>
 
     <ul class="navbar-nav">
-      <li class="nav-item active">
+      <li class="nav-item">
         <router-link
           to="/quiz"
           class="nav-link"
         >
-          Quiz  <span class="sr-only">(current)</span></a>
+          Quiz
         </router-link>
       </li>
       <li class="nav-item">
