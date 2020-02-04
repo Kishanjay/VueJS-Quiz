@@ -30,7 +30,7 @@
       </div>
       <div v-else-if="type==='multiple'">
         <label
-          v-for="possibleAnswer in answers"
+          v-for="possibleAnswer in shuffledAnswers"
           :key="possibleAnswer"
           class="form-check"
         >
@@ -65,6 +65,7 @@
 </template>
 <script>
 import sanitizeHtml from 'sanitize-html';
+import { shuffle } from 'lodash';
 
 export default {
   props: {
@@ -110,6 +111,11 @@ export default {
 
       secondsLeft: this.timeout,
     };
+  },
+  computed: {
+    shuffledAnswers() {
+      return shuffle(this.answers);
+    }
   },
   created() {
     if (this.timeout) {
