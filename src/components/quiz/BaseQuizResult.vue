@@ -1,3 +1,4 @@
+<script>/* eslint-disable vue/no-v-html */</script>
 <template>
   <div class="card">
     <div class="card-body">
@@ -10,7 +11,7 @@
           :key="question.id"
           class="list-group-item"
         >
-          <h5>{{ question.question }}</h5>
+          <h5 v-html="sanitizeHtml(question.question)" />
           <div
             v-if="question.user_answer.correct"
             class="alert alert-success"
@@ -23,7 +24,7 @@
           >
             {{ question.user_answer.value }} <br>
             <b>Correct answer:</b>
-            {{ question.correct_answer }}
+            <span v-html="sanitizeHtml(question.correct_answer)" />
           </div>
         </div>
       </div>
@@ -31,6 +32,8 @@
   </div>
 </template>
 <script>
+import sanitizeHtml from 'sanitize-html';
+
 export default {
   props: {
     quizResult: {
@@ -38,5 +41,8 @@ export default {
       type: Object,
     },
   },
+  methods: {
+    sanitizeHtml,
+  }
 };
 </script>
