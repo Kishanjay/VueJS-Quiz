@@ -110,6 +110,9 @@ export default {
 
       this.username = null;
       this.quizStarted = false;
+      this.quizFinished = false;
+
+      this.quizResult = null;
     },
     finishQuiz(scorePercentage, answers) {
       this.quizResult = {
