@@ -74,10 +74,12 @@
 import { first } from 'lodash';
 
 import quizRepository from '../repositories/quizRepository';
+import scoreboardRepository from '../repositories/scoreboardRepository';
 
 import BaseAlert from '../components/text/BaseAlert.vue';
 import BaseQuiz from '../components/quiz/BaseQuiz.vue';
 import BaseJumbotron from '../components/text/BaseJumbotron.vue';
+
 
 export default {
   components: {
@@ -122,7 +124,16 @@ export default {
       };
 
       this.quizFinished = true;
+      this.saveQuizResult(this.quizResult, this.username);
     },
+    saveQuizResult(quizResult, username) {
+      scoreboardRepository.addScore(username, quizResult.score).then(() => {
+        console.log('done');
+      }).catch(() => {
+        console.log('failed storing score');
+      });
+    },
+
     error(errorMessage, errorCode = null) {
       this.showError(errorMessage, errorCode, 1000);
     },
