@@ -1,9 +1,9 @@
 <template>
-  <div class="card p-4">
+  <main class="card p-4">
     <base-scoreboard
       :scoreboard-scores="scoreboardScores"
     />
-  </div>
+  </main>
 </template>
 
 <script>

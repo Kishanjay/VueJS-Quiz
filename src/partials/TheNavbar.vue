@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-dark bg-dark">
     <router-link
-      to="/quiz"
+      to="/"
       class="navbar-brand"
     >
       VueJs Quiz

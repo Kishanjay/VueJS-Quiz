@@ -4,12 +4,17 @@ import App from './App.vue';
 
 import './scss/styles.scss';
 
+import HomePage from './pages/Home.vue';
 import FmQuizPage from './pages/FmQuiz.vue';
 import FmScoreboard from './pages/FmScoreboard.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: '/',
+    component: HomePage,
+  },
   {
     path: '/quiz',
     component: FmQuizPage,
