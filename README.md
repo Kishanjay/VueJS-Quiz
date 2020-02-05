@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/a10e9cb4-856a-42c9-85bd-9f4b6fd6978a/deploy-status)](https://app.netlify.com/sites/vuejs-quiz/deploys)
+
 # Assignment
 As a client we want to have a Quiz that takes about 5 minutes to complete.
 
